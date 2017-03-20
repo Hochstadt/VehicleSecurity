@@ -32,13 +32,55 @@
         android:id="@+id/include"
         layout="@layout/content_main" />
 
-    <Button
-        android:id="@+id/test_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:text="Test"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="center_vertical|center_horizontal" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/button_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="117dp"
+            android:text="Test Program 1"
+            app:layout_anchor="@+id/include"
+            app:layout_anchorGravity="center_vertical|center_horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:onClick="onButton1" />
+
+        <Button
+            android:id="@+id/button_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/button_1"
+            android:layout_alignStart="@+id/button_1"
+            android:layout_below="@+id/button_1"
+            android:layout_marginTop="64dp"
+            android:text="Test Program 2"
+            android:onClick="onButton2" />
+
+        <Button
+            android:id="@+id/button_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/button_2"
+            android:layout_alignStart="@+id/button_2"
+            android:layout_below="@+id/button_2"
+            android:layout_marginTop="74dp"
+            android:text="Test Program 3"
+            android:onClick="onButton3" />
+
+        <Button
+            android:id="@+id/button_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/button_3"
+            android:layout_alignStart="@+id/button_3"
+            android:layout_below="@+id/button_3"
+            android:layout_marginTop="82dp"
+            android:text="Test Program 4"
+            android:onClick="onButton4" />
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

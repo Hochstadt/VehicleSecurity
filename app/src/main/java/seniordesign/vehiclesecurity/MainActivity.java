@@ -9,26 +9,21 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 
-import static android.content.ContentValues.TAG;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
-public class MainActivity extends Activity implements View.OnClickListener{
+public class MainActivity extends Activity{
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private Button test_button;
+    private String web_server_ip = "192.168.1.124";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
-        test_button = (Button) findViewById(R.id.test_button);
-
-        test_button.setOnClickListener(MainActivity.this);
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -39,26 +34,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
             }
         });
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,10 +57,30 @@ public class MainActivity extends Activity implements View.OnClickListener{
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onClick(View v) {
+    public void onButton1(View view) throws IOException {
+        Log.d(TAG, "Button 1 clicked");
+        //URL url = new URL("192.168.1.124/Test_Program_1.php");
+        //HttpURLConnection client = (HttpURLConnection) url.openConnection();
+        //client.setRequestMethod("GET");
+    }
 
-        Log.d(TAG, "First Button Clicked");
+    public void onButton2(View view)
+    {
+        Log.d(TAG, "Button 2 clicked");
+    }
 
+    public void onButton3(View view)
+    {
+        Log.d(TAG, "Button 3 clicked");
+    }
+
+    public void onButton4(View view)
+    {
+        Log.d(TAG, "Button 4 clicked");
+    }
+
+    public void setWebServerIP(String url)
+    {
+        web_server_ip = url;
     }
 }
