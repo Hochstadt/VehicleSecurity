@@ -91,6 +91,16 @@
             android:layout_marginTop="36dp"
             android:text="Test Program 5"
             android:onClick="onButton5" />
+
+        <Button
+            android:id="@+id/view_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button_5"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45dp"
+            android:text="View Video"
+            android:onClick="view_video"/>
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

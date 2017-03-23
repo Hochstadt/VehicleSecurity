@@ -1,6 +1,7 @@
 package seniordesign.vehiclesecurity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -99,6 +100,14 @@ public class MainActivity extends Activity{
                 + "Test_Program_5.php");
     }
 
+    // View video button
+    public void view_video(View view)
+    {
+        Intent startNewActivity = new Intent(this, VideoActivity.class);
+
+        startActivity(startNewActivity);
+    }
+
     public void setWebServerIP(String url)
     {
         web_server_address = url;
@@ -186,3 +195,51 @@ class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
     }
 }
 
+/*
+    EditText addrField;
+    Button btnConnect;
+    VideoView streamView;
+    MediaController mediaController;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        addrField = (EditText)findViewById(R.id.addr);
+        btnConnect = (Button)findViewById(R.id.connect);
+        streamView = (VideoView)findViewById(R.id.streamview);
+
+        btnConnect.setOnClickListener(new OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                String s = addrField.getEditableText().toString();
+                playStream(s);
+            }});
+
+    }
+
+    private void playStream(String src){
+        Uri UriSrc = Uri.parse(src);
+        if(UriSrc == null){
+            Toast.makeText(MainActivity.this,
+                    "UriSrc == null", Toast.LENGTH_LONG).show();
+        }else{
+            streamView.setVideoURI(UriSrc);
+            mediaController = new MediaController(this);
+            streamView.setMediaController(mediaController);
+            streamView.start();
+
+            Toast.makeText(MainActivity.this,
+                    "Connect: " + src,
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        streamView.stopPlayback();
+    }
+*/
