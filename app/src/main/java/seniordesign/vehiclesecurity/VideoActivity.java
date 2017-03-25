@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.MediaController;
 import android.widget.Toast;
@@ -19,7 +20,7 @@ public class VideoActivity extends AppCompatActivity {
 
     VideoView streamView;
     MediaController mediaController;
-    String videoURL = "http://192.168.1.20:8090";
+    String videoURL = "hhttp://192.168.1.20:8090"; // Default
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,9 @@ public class VideoActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        Bundle extras = getIntent().getExtras();
+        videoURL = extras.getString("URL");
+        Log.d("MAIN", "our URL value is " + videoURL);
         streamView = (VideoView) findViewById(R.id.video_viewer);
 
         Uri UriSrc = Uri.parse(videoURL);
@@ -62,6 +65,7 @@ public class VideoActivity extends AppCompatActivity {
     {
         super.onDestroy();
         streamView.stopPlayback();
+        new AsyncNetworkHandler().execute("http://192.168.1.20/Terminate_Stream.php");
     }
 
 

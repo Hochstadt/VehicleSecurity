@@ -1,16 +1,19 @@
 package seniordesign.vehiclesecurity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -25,21 +28,13 @@ public class MainActivity extends Activity{
     private static final String TAG = MainActivity.class.getSimpleName();
     private String web_server_protocol = "http://";
     private String web_server_address = "192.168.1.20/";
+    //System.setProperty("http.keepAlive", "false");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
@@ -66,8 +61,6 @@ public class MainActivity extends Activity{
 
     public void onButton1(View view) throws IOException {
         Log.d("MAIN", "Button 1 clicked");
-        Log.d("MAIN", web_server_protocol + web_server_address
-                + "Test_Program_1.php");
         new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
                 "Test_Program_1.php");
     }
@@ -100,10 +93,19 @@ public class MainActivity extends Activity{
                 + "Test_Program_5.php");
     }
 
+    /*
     // View video button
     public void view_video(View view)
     {
         Intent startNewActivity = new Intent(this, VideoActivity.class);
+
+        startNewActivity.putExtra("URL", "http://192.168.1.20:8090");
+        startActivity(startNewActivity);
+    }
+    **/
+    public void view_video_streams(View view)
+    {
+        Intent startNewActivity = new Intent(this, Select_Stream.class);
 
         startActivity(startNewActivity);
     }
@@ -132,10 +134,9 @@ class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
             //URL mycoo = new URL("http://192.168.1.20/Test_Program_1.php");
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(5000);
             conn.getInputStream();
             conn.disconnect();
-
-
 
             //if(conn.getResponseCode() == HttpURLConnection.HTTP_OK)
             //    Log.d("MAIN", "we got our HTTP OK");
@@ -178,8 +179,6 @@ class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
         {
             Log.d("MAIN", e.toString());
         }
-
-
     }
 
     // On completion
@@ -194,52 +193,3 @@ class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
 
     }
 }
-
-/*
-    EditText addrField;
-    Button btnConnect;
-    VideoView streamView;
-    MediaController mediaController;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        addrField = (EditText)findViewById(R.id.addr);
-        btnConnect = (Button)findViewById(R.id.connect);
-        streamView = (VideoView)findViewById(R.id.streamview);
-
-        btnConnect.setOnClickListener(new OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                String s = addrField.getEditableText().toString();
-                playStream(s);
-            }});
-
-    }
-
-    private void playStream(String src){
-        Uri UriSrc = Uri.parse(src);
-        if(UriSrc == null){
-            Toast.makeText(MainActivity.this,
-                    "UriSrc == null", Toast.LENGTH_LONG).show();
-        }else{
-            streamView.setVideoURI(UriSrc);
-            mediaController = new MediaController(this);
-            streamView.setMediaController(mediaController);
-            streamView.start();
-
-            Toast.makeText(MainActivity.this,
-                    "Connect: " + src,
-                    Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        streamView.stopPlayback();
-    }
-*/

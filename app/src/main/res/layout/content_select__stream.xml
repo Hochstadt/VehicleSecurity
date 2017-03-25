@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="seniordesign.vehiclesecurity.Select_Stream"
+    tools:showIn="@layout/activity_select__stream">
+
+    <RelativeLayout
+        android:layout_width="395dp"
+        android:layout_height="587dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="7dp">
+
+        <Button
+            android:id="@+id/frontButton"
+            android:onClick="onFront"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="99dp"
+            android:text="Front" />
+
+        <Button
+            android:id="@+id/rearButton"
+            android:onClick="onRear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/frontButton"
+            android:layout_alignStart="@+id/frontButton"
+            android:layout_centerVertical="true"
+            android:text="Rear" />
+
+        <Button
+            android:id="@+id/leftButton"
+            android:onClick="onLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/frontButton"
+            android:layout_marginTop="36dp"
+            android:layout_toLeftOf="@+id/frontButton"
+            android:layout_toStartOf="@+id/frontButton"
+            android:text="Left" />
+
+        <Button
+            android:id="@+id/rightButton"
+            android:onClick="onRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/leftButton"
+            android:layout_toEndOf="@+id/frontButton"
+            android:layout_toRightOf="@+id/frontButton"
+            android:text="Right" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
