@@ -1,5 +1,6 @@
 package seniordesign.vehiclesecurity;
 
+import android.bluetooth.BluetoothAdapter;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -59,6 +60,23 @@ public class MainActivity extends Activity{
         return super.onOptionsItemSelected(item);
     }
 
+    public void enableBluetooth() {
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            // Device does not support Bluetooth
+            Log.d("MAIN", "bluetooth not supported");
+
+        } else {
+            Log.d("MAIN", "bluetooth supported");
+
+            //discoverable mode
+            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 120);
+            startActivity(discoverableIntent);
+
+        }
+    }
+
     public void onButton1(View view) throws IOException {
         Log.d("MAIN", "Button 1 clicked");
         new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
@@ -77,6 +95,7 @@ public class MainActivity extends Activity{
         Log.d("MAIN", "Button 3 clicked");
         new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
                 + "Test_Program_3.php");
+        //enableBluetooth();
     }
 
     public void onButton4(View view)
@@ -84,6 +103,8 @@ public class MainActivity extends Activity{
         Log.d("MAIN", "Button 4 clicked");
         new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
                 + "Test_Program_4.php");
+        //Intent startNewActivity = new Intent(this,configActivity.class);
+        //startActivity(startNewActivity);
     }
 
     public void onButton5(View view)

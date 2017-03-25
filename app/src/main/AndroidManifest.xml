@@ -25,10 +25,14 @@
         <activity
             android:name=".VideoActivity"
             android:label="@string/title_activity_video"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Select_Stream"
             android:label="@string/title_activity_select__stream"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".configActivity"
+            android:label="@string/title_activity_config"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
