@@ -33,6 +33,10 @@
         <activity
             android:name=".configActivity"
             android:label="@string/title_activity_config"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DebugCommands"
+            android:label="@string/title_activity_debug_commands"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

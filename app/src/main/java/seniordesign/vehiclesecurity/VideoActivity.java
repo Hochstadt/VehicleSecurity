@@ -20,7 +20,7 @@ public class VideoActivity extends AppCompatActivity {
 
     VideoView streamView;
     MediaController mediaController;
-    String videoURL = "hhttp://192.168.1.20:8090"; // Default
+    String videoURL = "http://192.168.1.20:8090"; // Default
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,23 +49,24 @@ public class VideoActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
 
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        //*/
     }
 
     protected void onDestroy()
     {
         super.onDestroy();
         streamView.stopPlayback();
-        new AsyncNetworkHandler().execute("http://192.168.1.20/Terminate_Stream.php");
+        String address = "http://192.168.1.20/Terminate_Stream_Front.php";
+
+        if(videoURL.equals("http://192.168.1.20:8090"))
+            address = "http://192.168.1.20/Terminate_Stream_Front.php";
+        else if(videoURL.equals("http://192.168.1.21:8090"))
+            address = "http://192.168.1.20/Terminate_Stream_Right.php";
+        else if(videoURL.equals("http://192.168.1.22:8090"))
+            address = "http://192.168.1.20/Terminate_Stream_Rear.php";
+        else if(videoURL.equals("http://192.168.1.23:8090"))
+            address = "http://192.168.1.20/Terminate_Stream_Left.php";
+
+        new AsyncNetworkHandler().execute(address);
     }
 
 

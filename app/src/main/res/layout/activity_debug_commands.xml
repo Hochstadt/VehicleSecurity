@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="seniordesign.vehiclesecurity.DebugCommands">
+
+    <include layout="@layout/content_debug_commands"
+        android:id="@+id/include3" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <Button
+            android:id="@+id/test_program_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="23dp"
+            android:text="Test Program 1"
+            android:onClick="onButton1"
+            tools:layout_editor_absoluteX="135dp"
+            tools:layout_editor_absoluteY="31dp" />
+
+        <Button
+            android:id="@+id/test_program_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/test_program_1"
+            android:layout_alignStart="@+id/test_program_1"
+            android:layout_below="@+id/test_program_1"
+            android:layout_marginTop="22dp"
+            android:text="Test Program 2"
+            android:onClick="onButton2"
+            tools:layout_editor_absoluteX="135dp"
+            tools:layout_editor_absoluteY="99dp" />
+
+        <Button
+            android:id="@+id/test_program_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/test_program_2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="43dp"
+            android:text="Test Program 3"
+            android:onClick="onButton3"
+            tools:layout_editor_absoluteX="135dp"
+            tools:layout_editor_absoluteY="175dp" />
+
+        <Button
+            android:id="@+id/test_program_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/test_program_3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="59dp"
+            android:text="Test Program 4"
+            android:onClick="onButton4"
+            tools:layout_editor_absoluteX="135dp"
+            tools:layout_editor_absoluteY="252dp" />
+
+        <Button
+            android:id="@+id/test_program_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="51dp"
+            android:text="Test Program 5"
+            android:onClick="onButton5"
+            tools:layout_editor_absoluteX="135dp"
+            tools:layout_editor_absoluteY="329dp"
+            android:layout_below="@+id/test_program_4"
+            android:layout_alignLeft="@+id/test_program_4"
+            android:layout_alignStart="@+id/test_program_4" />
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

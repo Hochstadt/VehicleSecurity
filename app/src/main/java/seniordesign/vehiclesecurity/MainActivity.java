@@ -77,6 +77,23 @@ public class MainActivity extends Activity{
         }
     }
 
+    public void dashcam_mode(View view)
+    {
+        Log.d("MAIN", "Button 3 clicked");
+        new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
+                + "Dashcam_Mode.php");
+        //enableBluetooth();
+    }
+
+    public void alert_mode(View view)
+    {
+        Log.d("MAIN", "Button 3 clicked");
+        new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
+                + "Alert_Mode.php");
+        //enableBluetooth();
+    }
+
+    /*
     public void onButton1(View view) throws IOException {
         Log.d("MAIN", "Button 1 clicked");
         new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
@@ -113,20 +130,77 @@ public class MainActivity extends Activity{
         new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
                 + "Test_Program_5.php");
     }
+    //*/
 
+    // XML
     /*
-    // View video button
-    public void view_video(View view)
-    {
-        Intent startNewActivity = new Intent(this, VideoActivity.class);
+    <Button
+    android:id="@+id/button_1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top|center_horizontal"
+    android:layout_marginTop="56dp"
+    android:text="Test Program 1"
+    app:layout_anchor="@+id/include"
+    app:layout_anchorGravity="center_vertical|center_horizontal"
+    android:onClick="onButton1"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true" />
 
-        startNewActivity.putExtra("URL", "http://192.168.1.20:8090");
-        startActivity(startNewActivity);
-    }
-    **/
+        <Button
+    android:id="@+id/button_2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Test Program 2"
+    android:onClick="onButton2"
+    android:layout_below="@+id/button_1"
+    android:layout_toLeftOf="@+id/button_5"
+    android:layout_toStartOf="@+id/button_5" />
+
+        <Button
+    android:id="@+id/button_3"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="42dp"
+    android:text="Test Program 3"
+    android:onClick="onButton3"
+    android:layout_below="@+id/button_2"
+    android:layout_alignLeft="@+id/button_2"
+    android:layout_alignStart="@+id/button_2" />
+
+        <Button
+    android:id="@+id/button_4"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="40dp"
+    android:text="Test Program 4"
+    android:onClick="onButton4"
+    android:layout_below="@+id/button_3"
+    android:layout_alignLeft="@+id/button_3"
+    android:layout_alignStart="@+id/button_3" />
+
+        <Button
+    android:id="@+id/button_5"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Test Program 5"
+    android:onClick="onButton5"
+    android:layout_below="@+id/button_4"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true" />
+
+    //*/
     public void view_video_streams(View view)
     {
         Intent startNewActivity = new Intent(this, Select_Stream.class);
+
+        startActivity(startNewActivity);
+    }
+
+    public void debug_commands(View view)
+    {
+        Intent startNewActivity = new Intent(this, DebugCommands.class);
 
         startActivity(startNewActivity);
     }

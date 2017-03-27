@@ -28,71 +28,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/button_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center_horizontal"
-            android:layout_marginTop="87dp"
-            android:text="Test Program 1"
-            app:layout_anchor="@+id/include"
-            app:layout_anchorGravity="center_vertical|center_horizontal"
-            android:onClick="onButton1"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/button_5"
-            android:layout_alignStart="@+id/button_5" />
-
-        <Button
-            android:id="@+id/button_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
-            android:text="Test Program 2"
-            android:onClick="onButton2"
-            android:layout_below="@+id/button_1"
-            android:layout_centerHorizontal="true" />
-
-        <Button
-            android:id="@+id/button_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
-            android:text="Test Program 3"
-            android:onClick="onButton3"
-            android:layout_below="@+id/button_2"
-            android:layout_alignLeft="@+id/button_2"
-            android:layout_alignStart="@+id/button_2" />
-
-        <Button
-            android:id="@+id/button_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="Test Program 4"
-            android:onClick="onButton4"
-            android:layout_below="@+id/button_3"
-            android:layout_alignLeft="@+id/button_3"
-            android:layout_alignStart="@+id/button_3" />
-
-        <Button
-            android:id="@+id/button_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/button_4"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="36dp"
-            android:text="Test Program 5"
-            android:onClick="onButton5" />
 
         <Button
             android:id="@+id/view_video_streams"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/button_5"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="45dp"
+            android:onClick="view_video_streams"
             android:text="View Video Streams"
-            android:onClick="view_video_streams"/>
+            android:layout_marginBottom="46dp"
+            android:layout_above="@+id/debug_commands"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/debug_commands"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="debug_commands"
+            android:text="Debug Commands"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="134dp" />
+
+        <Button
+            android:id="@+id/dashcam_mode"
+            android:onClick="dashcam_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/alert_mode"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="58dp"
+            android:text="Dashcam Mode" />
+
+        <Button
+            android:id="@+id/alert_mode"
+            android:onClick="alert_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/view_video_streams"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="63dp"
+            android:text="Alert Mode" />
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

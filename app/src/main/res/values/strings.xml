@@ -4,4 +4,5 @@
     <string name="title_activity_video">VideoActivity</string>
     <string name="title_activity_select__stream">Select_Stream</string>
     <string name="title_activity_config">configActivity</string>
+    <string name="title_activity_debug_commands">DebugCommands</string>
 </resources>
