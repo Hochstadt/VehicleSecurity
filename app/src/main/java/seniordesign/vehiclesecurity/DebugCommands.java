@@ -1,5 +1,7 @@
 package seniordesign.vehiclesecurity;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,6 +25,22 @@ public class DebugCommands extends AppCompatActivity {
 
     }
 
+    public void enableBluetooth() {
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            // Device does not support Bluetooth
+            Log.d("MAIN", "bluetooth not supported");
+
+        } else {
+            Log.d("MAIN", "bluetooth supported");
+
+            //discoverable mode
+            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 120);
+            startActivity(discoverableIntent);
+
+        }
+    }
     public void onButton1(View view) throws IOException {
         Log.d("MAIN", "Button 1 clicked");
         new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
@@ -49,8 +67,8 @@ public class DebugCommands extends AppCompatActivity {
         Log.d("MAIN", "Button 4 clicked");
         new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
                 + "Test_Program_4.php");
-        //Intent startNewActivity = new Intent(this,configActivity.class);
-        //startActivity(startNewActivity);
+        Intent startNewActivity = new Intent(this,configActivity.class);
+        startActivity(startNewActivity);
     }
 
     public void onButton5(View view)

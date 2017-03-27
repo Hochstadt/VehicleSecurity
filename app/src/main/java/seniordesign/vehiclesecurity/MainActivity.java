@@ -1,6 +1,5 @@
 package seniordesign.vehiclesecurity;
 
-import android.bluetooth.BluetoothAdapter;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -60,29 +59,12 @@ public class MainActivity extends Activity{
         return super.onOptionsItemSelected(item);
     }
 
-    public void enableBluetooth() {
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBluetoothAdapter == null) {
-            // Device does not support Bluetooth
-            Log.d("MAIN", "bluetooth not supported");
-
-        } else {
-            Log.d("MAIN", "bluetooth supported");
-
-            //discoverable mode
-            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 120);
-            startActivity(discoverableIntent);
-
-        }
-    }
 
     public void dashcam_mode(View view)
     {
         Log.d("MAIN", "Button 3 clicked");
         new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
                 + "Dashcam_Mode.php");
-        //enableBluetooth();
     }
 
     public void alert_mode(View view)
@@ -90,7 +72,6 @@ public class MainActivity extends Activity{
         Log.d("MAIN", "Button 3 clicked");
         new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
                 + "Alert_Mode.php");
-        //enableBluetooth();
     }
 
     /*
