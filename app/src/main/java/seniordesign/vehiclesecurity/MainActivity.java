@@ -15,6 +15,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -22,6 +32,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends Activity{
 
@@ -197,7 +209,13 @@ class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
     @Override
     protected Double doInBackground(String... params)
     {
+        //if (params.length>1){
+           // postData(params[0]);
+        //}
+       // else{
         sendRequest(params[0]);
+        //}
+
         return null;
     }
 
@@ -256,6 +274,29 @@ class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
             Log.d("MAIN", e.toString());
         }
     }
+
+
+   /* public void postData(String progress) {
+        // Create a new HttpClient and Post Header
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost("http://192.168.1.20/Test_Program_4.php");
+
+        try {
+            // Add your data
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+            nameValuePairs.add(new BasicNameValuePair("myHttpData", progress));
+            //nameValuePairs.add(new BasicNameValuePair("clipLength", clipLength));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            // Execute HTTP Post Request
+            HttpResponse response = httpclient.execute(httppost);
+
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+        }
+    }*/
 
     // On completion
     protected void onPostExecute(Double result)

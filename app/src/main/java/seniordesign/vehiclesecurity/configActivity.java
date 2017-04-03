@@ -60,8 +60,13 @@ public class configActivity extends AppCompatActivity {
     public void onSubmit(View view){
         //lengthOfClip.setEnabled(false);
         textView.setText(seekBar.getProgress() + " this is " + lengthOfClip.getText());
-        new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
-                + "Test_Program_4.php");
+        //adds progress
+        new AsyncNetworkHandler().execute("http://192.168.1.20/Modify_Field_Value.php/?field=DASHCAM_" +
+                "CLIP_LENGTH&value="+seekBar.getProgress());
+       //adds length of clip to config
+        new AsyncNetworkHandler().execute("http://192.168.1.20/Modify_Field_Value.php/?field=DASHCAM_" +
+                "CLIP_COUNT&value="+lengthOfClip.getText().toString());
+
 
     }
 

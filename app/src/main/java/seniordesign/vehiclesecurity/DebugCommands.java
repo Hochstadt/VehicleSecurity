@@ -65,8 +65,8 @@ public class DebugCommands extends AppCompatActivity {
     public void onButton4(View view)
     {
         Log.d("MAIN", "Button 4 clicked");
-        new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
-                + "Test_Program_4.php");
+        /*new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
+                + "Test_Program_4.php");*/
         Intent startNewActivity = new Intent(this,configActivity.class);
         startActivity(startNewActivity);
     }
