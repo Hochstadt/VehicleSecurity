@@ -1,32 +1,41 @@
 package seniordesign.vehiclesecurity;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,11 +44,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity{
+//implements AsyncLoadImage.AsynchResponse
+public class MainActivity extends Activity implements AsyncLoadImage.AsynchResponse{
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private String web_server_protocol = "http://";
     private String web_server_address = "192.168.1.20/";
+    //private String imageAddress = "http://10.1.3.123/image.jpg";
+
+    private Bitmap pic;
+    //final Context context = this;
+
     //System.setProperty("http.keepAlive", "false");
 
     @Override
@@ -82,8 +97,17 @@ public class MainActivity extends Activity{
     public void alert_mode(View view)
     {
         Log.d("MAIN", "Button 3 clicked");
-        new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
-                + "Alert_Mode.php");
+       /* new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
+                + "Alert_Mode.php");*/
+
+
+       //Async task for image alert
+        Toast.makeText(this, "clicked", Toast.LENGTH_SHORT).show();
+        AsyncLoadImage imageLoad = new AsyncLoadImage(this);
+        imageLoad.response =this;
+        //change to ip address
+        imageLoad.execute("http://192.168.1.20/image.jpg");
+
     }
 
     /*
@@ -125,65 +149,6 @@ public class MainActivity extends Activity{
     }
     //*/
 
-    // XML
-    /*
-    <Button
-    android:id="@+id/button_1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top|center_horizontal"
-    android:layout_marginTop="56dp"
-    android:text="Test Program 1"
-    app:layout_anchor="@+id/include"
-    app:layout_anchorGravity="center_vertical|center_horizontal"
-    android:onClick="onButton1"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true" />
-
-        <Button
-    android:id="@+id/button_2"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Test Program 2"
-    android:onClick="onButton2"
-    android:layout_below="@+id/button_1"
-    android:layout_toLeftOf="@+id/button_5"
-    android:layout_toStartOf="@+id/button_5" />
-
-        <Button
-    android:id="@+id/button_3"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="42dp"
-    android:text="Test Program 3"
-    android:onClick="onButton3"
-    android:layout_below="@+id/button_2"
-    android:layout_alignLeft="@+id/button_2"
-    android:layout_alignStart="@+id/button_2" />
-
-        <Button
-    android:id="@+id/button_4"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="40dp"
-    android:text="Test Program 4"
-    android:onClick="onButton4"
-    android:layout_below="@+id/button_3"
-    android:layout_alignLeft="@+id/button_3"
-    android:layout_alignStart="@+id/button_3" />
-
-        <Button
-    android:id="@+id/button_5"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Test Program 5"
-    android:onClick="onButton5"
-    android:layout_below="@+id/button_4"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true" />
-
-    //*/
     public void view_video_streams(View view)
     {
         Intent startNewActivity = new Intent(this, Select_Stream.class);
@@ -202,6 +167,144 @@ public class MainActivity extends Activity{
     {
         web_server_address = url;
     }
+
+
+    public void displayDialog(){
+        //could change to context
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_main);
+
+
+
+       ImageView image = (ImageView) dialog.findViewById(R.id.DialogImage);
+       Picasso.with(this).load("http://192.168.1.20/image.jpg")
+               .memoryPolicy(MemoryPolicy.NO_CACHE)
+               .networkPolicy(NetworkPolicy.NO_CACHE)
+               .resize(400,300).into(image);
+
+        Button ignore = (Button) dialog.findViewById(R.id.Disregard);
+        ignore.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+               /*new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
+                       "delete_Picture.php");*/
+                alert_mode(findViewById(R.id.alert_mode));
+
+            }
+        });
+
+        Button save = (Button) dialog.findViewById(R.id.SaveImage);
+        // if button is clicked, close the custom dialog
+        save.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                imageDownload("http://192.168.1.20/image.jpg");
+                dialog.dismiss();
+                alert_mode(findViewById(R.id.alert_mode));
+
+               /*new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
+                       "delete_Picture.php");*/
+                //alert_mode(findViewById(R.id.alert_mode));
+            }
+        });
+
+        Button alert = (Button) dialog.findViewById(R.id.SendAlert);
+        alert.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+              /* new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
+                       "soundAlarm.php");*/
+                alert_mode(findViewById(R.id.alert_mode));
+            }
+        });
+
+
+
+        dialog.show();
+
+        //look at codealert.txt in case
+
+
+    }
+
+
+
+
+   public void imageDownload(String url){
+       Picasso.with(this)
+               .load(url)
+               .memoryPolicy(MemoryPolicy.NO_CACHE)
+               .networkPolicy(NetworkPolicy.NO_CACHE)
+               .resize(400,300)
+               .into(target);
+   }
+
+   //saves into local storage Directory Pictures
+   private Target target = new Target() {
+        @Override
+        public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    File file = new File(Environment.getExternalStorageDirectory().getPath() +"/Pictures/security.jpg");
+                    try
+                    {
+                        file.createNewFile();
+                        FileOutputStream ostream = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 75, ostream);
+                        ostream.close();
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+            }).start();
+        }
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+            if (placeHolderDrawable != null) {
+            }
+        }
+    };
+
+
+
+    //methods for loading image
+    public void processFinish(Bitmap bitmap,String message) {
+       if(bitmap==null){
+           //Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
+           //constant checking
+           AsyncLoadImage imageLoad = new AsyncLoadImage(this);
+           imageLoad.response =this;
+           //change to ip address
+           imageLoad.execute("http://192.168.1.20/image.jpg");
+
+       }
+       else {
+           //pic = bitmap;
+           displayDialog();
+          // Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
+       }
+    }
+
+
+
+
 }
 
 class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
@@ -276,28 +379,6 @@ class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
     }
 
 
-   /* public void postData(String progress) {
-        // Create a new HttpClient and Post Header
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://192.168.1.20/Test_Program_4.php");
-
-        try {
-            // Add your data
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-            nameValuePairs.add(new BasicNameValuePair("myHttpData", progress));
-            //nameValuePairs.add(new BasicNameValuePair("clipLength", clipLength));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            // Execute HTTP Post Request
-            HttpResponse response = httpclient.execute(httppost);
-
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-        }
-    }*/
-
     // On completion
     protected void onPostExecute(Double result)
     {
@@ -309,4 +390,75 @@ class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
     {
 
     }
+}
+
+
+//Currently working on
+
+class AsyncLoadImage extends AsyncTask<String, Void,Bitmap>{
+
+
+    public AsynchResponse response;
+
+    public AsyncLoadImage(AsynchResponse listener) {
+
+        response = listener;
+    }
+
+    public interface AsynchResponse{
+
+        void processFinish(Bitmap bitmap,String message);
+    }
+
+
+    @Override
+    protected Bitmap doInBackground(String... args) {
+        Bitmap picture;
+        //BitmapFactory.Options options;
+        try {
+            URL url = new URL(args[0]);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(5000);
+            conn.setDoInput(true);
+            conn.connect();
+
+            picture = BitmapFactory.decodeStream(conn.getInputStream());
+
+            /*while( picture == null) {
+                picture = BitmapFactory.decodeStream(conn.getInputStream());
+            }*/
+
+            conn.disconnect();
+            //return picture;
+
+            return picture;
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            //return null;
+        }
+        return null;
+
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap bitmap) {
+
+        //Toast.makeText(this, "Executing", Toast.LENGTH_SHORT).show();
+
+        //response.processFinish(bitmap);
+        if (bitmap != null) {
+
+            //execute when image successfully loaded
+            response.processFinish(bitmap,"found pic");
+
+        } else {
+            //display error
+            response.processFinish(bitmap,"no alert");
+        }
+
+    }
+
+
 }
