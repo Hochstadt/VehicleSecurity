@@ -8,86 +8,94 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#474747">
 
-        <Button
-            android:id="@+id/debug_commands"
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:onClick="debug_commands"
-            android:text="Debug Commands"
-            android:layout_marginTop="56dp"
-            app:layout_constraintTop_toBottomOf="@+id/View_Past_Footage"
-            android:layout_marginLeft="129dp"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="monospace"
+            android:text="Vehicle Security"
+            android:textColor="#0EB031"
+            android:textSize="30sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/dashcam_mode"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_above="@+id/alert_mode"
             android:layout_centerHorizontal="true"
+            android:layout_marginLeft="105dp"
+            android:layout_marginTop="85dp"
             android:onClick="dashcam_mode"
             android:text="Dashcam Mode"
-            android:layout_marginLeft="138dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="109dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/view_video_streams"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/debug_commands"
             android:layout_centerHorizontal="true"
+            android:layout_marginLeft="105dp"
+            android:layout_marginTop="42dp"
             android:onClick="view_video_streams"
             android:text="View Video Streams"
-            android:layout_marginTop="36dp"
-            app:layout_constraintTop_toBottomOf="@+id/alert_mode"
-            android:layout_marginLeft="121dp"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/alert_mode" />
 
         <Button
             android:id="@+id/View_Past_Footage"
-            android:onClick="view_past_footage"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/view_video_streams"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="124dp"
-            android:layout_marginTop="52dp"
+            android:layout_marginLeft="105dp"
+            android:layout_marginTop="42dp"
+            android:onClick="view_past_footage"
             android:text="View Past Footage"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view_video_streams" />
 
         <Button
             android:id="@+id/alert_mode"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_above="@+id/view_video_streams"
             android:layout_centerHorizontal="true"
+            android:layout_marginLeft="105dp"
+            android:layout_marginTop="42dp"
             android:onClick="alert_mode"
             android:text="Alert Mode"
-            android:layout_marginTop="41dp"
-            app:layout_constraintTop_toBottomOf="@+id/dashcam_mode"
-            android:layout_marginLeft="151dp"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dashcam_mode" />
+
+        <Button
+            android:id="@+id/soundAlarm"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="105dp"
+            android:layout_marginTop="42dp"
+            android:onClick="sound_alarm"
+            android:text="Sound Alarm"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/View_Past_Footage" />
+
+        <Button
+            android:id="@+id/config"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="105dp"
+            android:layout_marginTop="42dp"
+            android:onClick="config_menu"
+            android:text="Config"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/soundAlarm" />
     </android.support.constraint.ConstraintLayout>
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
 
 </android.support.design.widget.CoordinatorLayout>

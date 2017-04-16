@@ -59,7 +59,7 @@ public class configActivity extends AppCompatActivity {
 
     public void onSubmit(View view){
         //lengthOfClip.setEnabled(false);
-        textView.setText(seekBar.getProgress() + " this is " + lengthOfClip.getText());
+        //textView.setText(seekBar.getProgress() + " this is " + lengthOfClip.getText());
         //adds progress
         new AsyncNetworkHandler().execute("http://192.168.1.20/Modify_Field_Value.php/?field=DASHCAM_" +
                 "CLIP_LENGTH&value="+seekBar.getProgress());

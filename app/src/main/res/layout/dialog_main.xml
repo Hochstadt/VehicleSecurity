@@ -15,18 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/DialogImage"
-        android:text="Disregard" />
-    <Button
-        android:id="@+id/SaveImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/DialogImage"
-        android:text="Save Image" />
-    <Button
-        android:id="@+id/SendAlert"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/DialogImage"
-        android:text="Send Alert" />
+        android:text="Ok" />
 
 </LinearLayout>

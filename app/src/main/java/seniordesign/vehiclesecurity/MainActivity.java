@@ -50,6 +50,10 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
     private static final String TAG = MainActivity.class.getSimpleName();
     private String web_server_protocol = "http://";
     private String web_server_address = "192.168.1.20/";
+
+    private boolean alarm_playing = false;
+
+    private boolean STOP_ALERT_MODE = false;
     //private String imageAddress = "http://10.1.3.123/image.jpg";
 
     private Bitmap pic;
@@ -61,7 +65,6 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     }
 
     @Override
@@ -90,6 +93,8 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
     public void dashcam_mode(View view)
     {
         Log.d("MAIN", "Button 3 clicked");
+
+        STOP_ALERT_MODE =true;
         new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
                 + "Dashcam_Mode.php");
     }
@@ -110,47 +115,11 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
 
     }
 
-    /*
-    public void onButton1(View view) throws IOException {
-        Log.d("MAIN", "Button 1 clicked");
-        new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
-                "Test_Program_1.php");
-    }
-
-    public void onButton2(View view)
-    {
-        Log.d("MAIN", "Button 2 clicked");
-        new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
-                + "Test_Program_2.php");
-    }
-
-    public void onButton3(View view)
-    {
-        Log.d("MAIN", "Button 3 clicked");
-        new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
-                + "Test_Program_3.php");
-        //enableBluetooth();
-    }
-
-    public void onButton4(View view)
-    {
-        Log.d("MAIN", "Button 4 clicked");
-        new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
-                + "Test_Program_4.php");
-        //Intent startNewActivity = new Intent(this,configActivity.class);
-        //startActivity(startNewActivity);
-    }
-
-    public void onButton5(View view)
-    {
-        Log.d("MAIN", "Button 5 clicked");
-        new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
-                + "Test_Program_5.php");
-    }
-    //*/
 
     public void view_video_streams(View view)
     {
+        STOP_ALERT_MODE =true;
+
         Intent startNewActivity = new Intent(this, Select_Stream.class);
 
         startActivity(startNewActivity);
@@ -163,16 +132,42 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
         startActivity(startNewActivity);
     }
 
-    public void debug_commands(View view)
+    public void sound_alarm(View view)
     {
-        Intent startNewActivity = new Intent(this, DebugCommands.class);
+        Button mybutton = (Button) findViewById(R.id.soundAlarm);
+        if(alarm_playing)
+        {
+            // call alarm stop
+            new AsyncNetworkHandler().execute("http://192.168.1.20/stopAlarm.php");
 
-        startActivity(startNewActivity);
+            // Change button label to "Sound Alarm"
+            mybutton.setText("Sound Alarm");
+
+            alarm_playing = false;
+        }
+        else
+        {
+
+            // call alarm start
+            new AsyncNetworkHandler().execute("http://192.168.1.20/soundAlarm.php");
+
+            // Change button label to Stop Alarm
+            mybutton.setText("Stop Alarm");
+
+            alarm_playing = true;
+
+        }
+
     }
 
-    public void setWebServerIP(String url)
+    public void config_menu(View view)
     {
-        web_server_address = url;
+        STOP_ALERT_MODE =true;
+        new AsyncNetworkHandler().execute("http://192.168.1.20/Stop_All_Camera_And_IMU.php");
+
+        Intent startNewActivity = new Intent(this, configActivity.class);
+
+        startActivity(startNewActivity);
     }
 
 
@@ -181,14 +176,14 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_main);
-
+        dialog.setCanceledOnTouchOutside(false);
 
 
        ImageView image = (ImageView) dialog.findViewById(R.id.DialogImage);
        Picasso.with(this).load("http://192.168.1.20/image.jpg")
                .memoryPolicy(MemoryPolicy.NO_CACHE)
                .networkPolicy(NetworkPolicy.NO_CACHE)
-               .resize(400,300).into(image);
+               .resize(800,600).into(image);
 
         Button ignore = (Button) dialog.findViewById(R.id.Disregard);
         ignore.setOnClickListener(new View.OnClickListener() {
@@ -196,14 +191,15 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-               /*new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
-                       "delete_Picture.php");*/
-                alert_mode(findViewById(R.id.alert_mode));
+                //delete picture
+               new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
+                       "delete_Picture.php");
+                //alert_mode(findViewById(R.id.alert_mode));
 
             }
         });
 
-        Button save = (Button) dialog.findViewById(R.id.SaveImage);
+        /*Button save = (Button) dialog.findViewById(R.id.SaveImage);
         // if button is clicked, close the custom dialog
         save.setOnClickListener(new View.OnClickListener() {
 
@@ -211,11 +207,10 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
             public void onClick(View v) {
                 imageDownload("http://192.168.1.20/image.jpg");
                 dialog.dismiss();
-                alert_mode(findViewById(R.id.alert_mode));
-
-               /*new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
-                       "delete_Picture.php");*/
-                //alert_mode(findViewById(R.id.alert_mode));
+                //delete picture
+               new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
+                       "delete_Picture.php");
+               // alert_mode(findViewById(R.id.alert_mode));
             }
         });
 
@@ -225,11 +220,14 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-              /* new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
-                       "soundAlarm.php");*/
+                //delete picture
+                new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
+                        "delete_Picture.php");
+                new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
+                       "soundAlarm.php");
                 //alert_mode(findViewById(R.id.alert_mode));
             }
-        });
+        });*/
 
 
 
@@ -248,7 +246,7 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
                .load(url)
                .memoryPolicy(MemoryPolicy.NO_CACHE)
                .networkPolicy(NetworkPolicy.NO_CACHE)
-               .resize(400,300)
+               .resize(800,600)
                .into(target);
    }
 
@@ -260,7 +258,7 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
                 @Override
                 public void run() {
 
-                    File file = new File(Environment.getExternalStorageDirectory().getPath() +"/Pictures/security.jpg");
+                    File file = new File(getFilesDir().getPath() +"/security.jpg");
                     try
                     {
                         file.createNewFile();
@@ -293,13 +291,17 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
     public void processFinish(Bitmap bitmap,String message) {
        if(bitmap==null){
            //Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-
-           //constant checking
-           AsyncLoadImage imageLoad = new AsyncLoadImage(this);
-           imageLoad.response =this;
-           //change to ip address
-           imageLoad.execute("http://192.168.1.20/image.jpg");
-
+            if(!STOP_ALERT_MODE) {
+                //constant checking
+                AsyncLoadImage imageLoad = new AsyncLoadImage(this);
+                imageLoad.response = this;
+                //change to ip address
+                imageLoad.execute("http://192.168.1.20/image.jpg");
+            }
+            else
+            {
+                STOP_ALERT_MODE = false;
+            }
        }
        else {
            //pic = bitmap;
@@ -482,7 +484,7 @@ class AsyncLoadImage extends AsyncTask<String, Void,Bitmap>{
         try {
             URL url = new URL(args[0]);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(5000);
+            //conn.setReadTimeout(5000);
             conn.setDoInput(true);
             conn.connect();
 

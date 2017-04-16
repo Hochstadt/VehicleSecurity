@@ -17,7 +17,6 @@ public class Select_Stream extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select__stream);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
     }
 
