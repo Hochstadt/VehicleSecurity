@@ -97,8 +97,8 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
     public void alert_mode(View view)
     {
         Log.d("MAIN", "Button 3 clicked");
-       /* new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
-                + "Alert_Mode.php");*/
+        new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
+                + "Alert_Mode.php");
 
 
        //Async task for image alert
@@ -152,6 +152,13 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
     public void view_video_streams(View view)
     {
         Intent startNewActivity = new Intent(this, Select_Stream.class);
+
+        startActivity(startNewActivity);
+    }
+
+    public void view_past_footage(View view)
+    {
+        Intent startNewActivity = new Intent(this, ViewDirectories.class);
 
         startActivity(startNewActivity);
     }
@@ -302,9 +309,6 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
        }
     }
 
-
-
-
 }
 
 class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
@@ -312,14 +316,73 @@ class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
     @Override
     protected Double doInBackground(String... params)
     {
-        //if (params.length>1){
-           // postData(params[0]);
-        //}
-       // else{
-        sendRequest(params[0]);
-        //}
+        // This means we're trying to view the directory. params[2] is FRONT
+        //                                                             RIGHT
+        //                                                             REAR
+        //                                                             LEFT
+        if (params.length > 1 &&
+            params[1].equals("directories"))
+        {
+            getDirectories(params[2]);
+        }
+        else
+        {
+            sendRequest(params[0]);
+        }
 
         return null;
+    }
+
+    private void getDirectories(String direction)
+    {
+        Log.d("MAIN", "We're looking at the directories for " + direction);
+        try
+        {
+            URL url = new URL("http://192.168.1.20/Get_Front_Directories.php");
+
+            if(direction.equals("FRONT"))
+                url = new URL("http://192.168.1.20/Get_Front_Directories.php");
+            else if(direction.equals("RIGHT"))
+                url = new URL("http://192.168.1.20/Get_Right_Directories.php");
+            else if(direction.equals("REAR"))
+                url = new URL("http://192.168.1.20/Get_Rear_Directories.php");
+            else if(direction.equals("LEFT"))
+                url = new URL("http://192.168.1.20/Get_Left_Directories.php");
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(5000);
+
+            if(conn.getResponseCode() == HttpURLConnection.HTTP_OK)
+                Log.d("MAIN", "We got our HTTP OK");
+
+            InputStream in = conn.getInputStream();
+
+            java.util.Scanner s = new java.util.Scanner(in).useDelimiter("\\A");
+            String data = s.hasNext() ? s.next(): "";
+            // Data is the entire string return from executing the php file.
+
+            Log.d("MAIN", "We're reading.. Input = " + data);
+
+
+            /*
+            int data = reader.read();
+            while(data != -1)
+            {
+                char current = (char) data;
+                data = reader.read();
+                Log.d("MAIN", "We're reading.. Input = " + current);
+            }
+            */
+
+            conn.disconnect();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("MAIN", "YO YOUR SHIT JUST GOT FUCKED");
+        }
+
+
     }
 
 
@@ -391,6 +454,7 @@ class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
 
     }
 }
+
 
 
 //Currently working on

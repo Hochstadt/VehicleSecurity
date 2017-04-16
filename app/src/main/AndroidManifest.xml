@@ -37,7 +37,15 @@
             android:name=".DebugCommands"
             android:label="@string/title_activity_debug_commands"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".configActivity"></activity>
+        <activity android:name=".configActivity" />
+        <activity
+            android:name=".ViewDirectories"
+            android:label="@string/title_activity_view_directories"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DirectoryList"
+            android:label="@string/title_activity_directory_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -5,4 +5,6 @@
     <string name="title_activity_select__stream">Select_Stream</string>
     <string name="title_activity_config">configActivity</string>
     <string name="title_activity_debug_commands">DebugCommands</string>
+    <string name="title_activity_view_directories">ViewDirectories</string>
+    <string name="title_activity_directory_list">DirectoryList</string>
 </resources>

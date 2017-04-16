@@ -31,22 +31,43 @@ public class VideoActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         videoURL = extras.getString("URL");
-        Log.d("MAIN", "our URL value is " + videoURL);
-        streamView = (VideoView) findViewById(R.id.video_viewer);
 
-        Uri UriSrc = Uri.parse(videoURL);
-        if(UriSrc == null){
-            Toast.makeText(VideoActivity.this,
-                    "UriSrc == null", Toast.LENGTH_LONG).show();
-        }else{
-            streamView.setVideoURI(UriSrc);
+        if (videoURL.equals("playback"))
+        {
+            // If we are streaming a playback video on the pi...
+            Log.d("MAIN", "We're in playback mode baybee");
+
+            streamView = (VideoView)findViewById(R.id.video_viewer);
+
             mediaController = new MediaController(this);
-            streamView.setMediaController(mediaController);
-            streamView.start();
 
-            Toast.makeText(VideoActivity.this,
-                    "Connect: " + src,
-                    Toast.LENGTH_LONG).show();
+            mediaController.setAnchorView(streamView);
+
+            streamView.setMediaController(mediaController);
+            //streamView.setVideoURI(Uri.parse("http://192.168.1.20/video.h264"));
+            streamView.setVideoURI(Uri.parse("http://192.168.1.20/video.mp4"));
+            //streamView.setVideoURI(Uri.parse("https://www.quirksmode.org/html5/videos/big_buck_bunny.mp4"));
+
+            streamView.start();
+        }
+        else {
+            Log.d("MAIN", "our URL value is " + videoURL);
+            streamView = (VideoView) findViewById(R.id.video_viewer);
+
+            Uri UriSrc = Uri.parse(videoURL);
+            if (UriSrc == null) {
+                Toast.makeText(VideoActivity.this,
+                        "UriSrc == null", Toast.LENGTH_LONG).show();
+            } else {
+                streamView.setVideoURI(UriSrc);
+                mediaController = new MediaController(this);
+                streamView.setMediaController(mediaController);
+                streamView.start();
+
+                Toast.makeText(VideoActivity.this,
+                        "Connect: " + src,
+                        Toast.LENGTH_LONG).show();
+            }
         }
 
     }
@@ -65,6 +86,8 @@ public class VideoActivity extends AppCompatActivity {
             address = "http://192.168.1.20/Terminate_Stream_Rear.php";
         else if(videoURL.equals("http://192.168.1.23:8090"))
             address = "http://192.168.1.20/Terminate_Stream_Left.php";
+        else
+            return;
 
         new AsyncNetworkHandler().execute(address);
     }
