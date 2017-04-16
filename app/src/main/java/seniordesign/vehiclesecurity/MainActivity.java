@@ -220,7 +220,7 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
                 dialog.dismiss();
               /* new AsyncNetworkHandler().execute(web_server_protocol + web_server_address +
                        "soundAlarm.php");*/
-                alert_mode(findViewById(R.id.alert_mode));
+                //alert_mode(findViewById(R.id.alert_mode));
             }
         });
 
