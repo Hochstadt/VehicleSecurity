@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -101,6 +102,7 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
 
     public void alert_mode(View view)
     {
+        STOP_ALERT_MODE = false;
         Log.d("MAIN", "Button 3 clicked");
         new AsyncNetworkHandler().execute(web_server_protocol + web_server_address
                 + "Alert_Mode.php");
@@ -127,6 +129,9 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
 
     public void view_past_footage(View view)
     {
+        STOP_ALERT_MODE =true;
+        new AsyncNetworkHandler().execute("http://192.168.1.20/Stop_All_Camera_And_IMU.php");
+
         Intent startNewActivity = new Intent(this, ViewDirectories.class);
 
         startActivity(startNewActivity);
@@ -315,6 +320,23 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
 
 class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
 {
+    boolean looking_for_directories = false;
+    String direction;
+    String file_list;
+    Context context;
+
+
+    public AsyncNetworkHandler()
+    {
+        ;
+    }
+
+    public AsyncNetworkHandler(Context context)
+    {
+        this.context = context.getApplicationContext();
+    }
+
+
     @Override
     protected Double doInBackground(String... params)
     {
@@ -337,6 +359,9 @@ class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
 
     private void getDirectories(String direction)
     {
+        looking_for_directories = true;
+        this.direction = direction;
+
         Log.d("MAIN", "We're looking at the directories for " + direction);
         try
         {
@@ -360,21 +385,10 @@ class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
             InputStream in = conn.getInputStream();
 
             java.util.Scanner s = new java.util.Scanner(in).useDelimiter("\\A");
-            String data = s.hasNext() ? s.next(): "";
+            file_list = s.hasNext() ? s.next(): "";
             // Data is the entire string return from executing the php file.
 
-            Log.d("MAIN", "We're reading.. Input = " + data);
-
-
-            /*
-            int data = reader.read();
-            while(data != -1)
-            {
-                char current = (char) data;
-                data = reader.read();
-                Log.d("MAIN", "We're reading.. Input = " + current);
-            }
-            */
+            Log.d("MAIN", "We're reading.. Input = " + file_list);
 
             conn.disconnect();
 
@@ -390,52 +404,14 @@ class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
 
     private void sendRequest(String address)
     {
-        //Log.d("MAIN", "sendRequest beginning...");
+        looking_for_directories = false;
         try
         {
-            //URL mycoo = new URL("http://192.168.1.20/Test_Program_1.php");
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(5000);
+            conn.setReadTimeout(2000);
             conn.getInputStream();
             conn.disconnect();
-
-            //if(conn.getResponseCode() == HttpURLConnection.HTTP_OK)
-            //    Log.d("MAIN", "we got our HTTP OK");
-
-            //conn.setRequestMethod("POST");
-
-            // Process for connection --
-            /*
-            1. Set Request Properties
-            2. (Optional) getOutputStream(), write to the stream, close the stream.
-            3. getInputStream(), read from the stream, close the stream.
-            http://stackoverflow.com/questions/4844535/why-do-you-have-to-call-urlconnectiongetinputstream-to-be-able-to-write-out-to
-            //*/
-
-            /*
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-            wr.writeBytes("mydata=hello");
-            wr.flush();
-            wr.close();
-            //*/
-
-            /*
-            InputStream is = conn.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            String line;
-            StringBuffer response = new StringBuffer();
-            while((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
-            }
-            rd.close();
-
-            Log.d("MAIN", response.toString());
-            conn.disconnect();
-            //*/
         }
         catch(Exception e)
         {
@@ -447,6 +423,14 @@ class AsyncNetworkHandler extends AsyncTask<String, Integer, Double>
     // On completion
     protected void onPostExecute(Double result)
     {
+        if(looking_for_directories)
+        {
+            Intent startNewActivity = new Intent(context,DirectoryList.class);
+            startNewActivity.putExtra("file_list", file_list);
+            startNewActivity.putExtra("direction", direction);
+            context.startActivity(startNewActivity);
+            looking_for_directories = false;
+        }
 
     }
 

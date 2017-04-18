@@ -2,6 +2,7 @@ package seniordesign.vehiclesecurity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,23 +19,25 @@ public class ViewDirectories extends AppCompatActivity {
 
     public void on_front(View view)
     {
-        new AsyncNetworkHandler().execute("doesn't actually matter", "directories", "FRONT");
+        new AsyncNetworkHandler(getApplicationContext()).execute("doesn't actually matter", "directories", "FRONT");
 
-        Intent startNewActivity = new Intent(this, DirectoryList.class);
+        //Intent startNewActivity = new Intent(this, DirectoryList.class);
 
-        startActivity(startNewActivity);
+        //startActivity(startNewActivity);
 
     }
 
     public void on_right(View view)
     {
-        new AsyncNetworkHandler().execute("doesn't actually matter", "directories", "RIGHT");
+        //new AsyncNetworkHandler().execute("http://192.168.1.20/Copy_Right_Directories.php");
+        //SystemClock.sleep(1000);
+        //new AsyncNetworkHandler().execute("doesn't actually matter", "directories", "RIGHT");
 
     }
 
     public void on_rear(View view)
     {
-        new AsyncNetworkHandler().execute("doesn't actually matter", "directories", "REAR");
+        //new AsyncNetworkHandler().execute("doesn't actually matter", "directories", "REAR");
 
     }
 
@@ -43,9 +46,9 @@ public class ViewDirectories extends AppCompatActivity {
         //new AsyncNetworkHandler().execute("doesn't actually matter", "directories", "LEFT");
 
         // Testing Video playing
-        Intent startNewActivity = new Intent(this, VideoActivity.class);
-        startNewActivity.putExtra("URL", "playback");
-        startActivity(startNewActivity);
+        //Intent startNewActivity = new Intent(this, VideoActivity.class);
+        //startNewActivity.putExtra("URL", "playback");
+        //startActivity(startNewActivity);
     }
 
 }

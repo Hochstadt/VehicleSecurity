@@ -10,10 +10,10 @@
 
     <ListView
         android:id="@+id/directorylistview"
-        android:layout_width="395dp"
-        android:layout_height="587dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="4dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -21,6 +21,7 @@ public class VideoActivity extends AppCompatActivity {
     VideoView streamView;
     MediaController mediaController;
     String videoURL = "http://192.168.1.20:8090"; // Default
+    String filename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class VideoActivity extends AppCompatActivity {
 
         if (videoURL.equals("playback"))
         {
+            filename = extras.getString("filename");
+
             // If we are streaming a playback video on the pi...
             Log.d("MAIN", "We're in playback mode baybee");
 
@@ -42,11 +45,13 @@ public class VideoActivity extends AppCompatActivity {
             mediaController.setAnchorView(streamView);
 
             streamView.setMediaController(mediaController);
-            //streamView.setVideoURI(Uri.parse("http://192.168.1.20/video.h264"));
+
             streamView.setVideoURI(Uri.parse("http://192.168.1.20/video.mp4"));
-            //streamView.setVideoURI(Uri.parse("https://www.quirksmode.org/html5/videos/big_buck_bunny.mp4"));
 
             streamView.start();
+            //
+            Toast.makeText(VideoActivity.this, filename, Toast.LENGTH_LONG).show();
+            //
         }
         else {
             Log.d("MAIN", "our URL value is " + videoURL);
@@ -72,8 +77,11 @@ public class VideoActivity extends AppCompatActivity {
 
     protected void onDestroy()
     {
+        Log.d("MAIN", "Uhh we're destroying loll");
+
         super.onDestroy();
         streamView.stopPlayback();
+
         String address = "http://192.168.1.20/Terminate_Stream_Front.php";
 
         if(videoURL.equals("http://192.168.1.20:8090"))
@@ -84,8 +92,8 @@ public class VideoActivity extends AppCompatActivity {
             address = "http://192.168.1.20/Terminate_Stream_Rear.php";
         else if(videoURL.equals("http://192.168.1.23:8090"))
             address = "http://192.168.1.20/Terminate_Stream_Left.php";
-        else
-            return;
+        else if (videoURL.equals("playback"))
+            address = "http://192.168.1.20/Delete_Video.php";
 
         new AsyncNetworkHandler().execute(address);
     }
