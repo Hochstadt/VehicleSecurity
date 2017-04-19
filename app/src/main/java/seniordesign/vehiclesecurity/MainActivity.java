@@ -136,7 +136,7 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
 
         //startActivity(startNewActivity);
 
-        new AsyncNetworkHandler().execute("doesn't actually matter", "directories", "FRONT");
+        new AsyncNetworkHandler(this.getApplicationContext()).execute("doesn't actually matter", "directories", "FRONT");
     }
 
     public void sound_alarm(View view)

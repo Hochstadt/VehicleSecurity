@@ -23,7 +23,7 @@ public class ViewDirectories extends AppCompatActivity {
 
         //Intent startNewActivity = new Intent(this, DirectoryList.class);
 
-        //startActivity(startNewActivity);
+       //startActivity(startNewActivity);
 
     }
 
