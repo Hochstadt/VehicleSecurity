@@ -132,9 +132,11 @@ public class MainActivity extends Activity implements AsyncLoadImage.AsynchRespo
         STOP_ALERT_MODE =true;
         new AsyncNetworkHandler().execute("http://192.168.1.20/Stop_All_Camera_And_IMU.php");
 
-        Intent startNewActivity = new Intent(this, ViewDirectories.class);
+        //Intent startNewActivity = new Intent(this, ViewDirectories.class);
 
-        startActivity(startNewActivity);
+        //startActivity(startNewActivity);
+
+        new AsyncNetworkHandler().execute("doesn't actually matter", "directories", "FRONT");
     }
 
     public void sound_alarm(View view)
