@@ -67,6 +67,8 @@ public class configActivity extends AppCompatActivity {
         new AsyncNetworkHandler().execute("http://192.168.1.20/Modify_Field_Value.php/?field=DASHCAM_" +
                 "CLIP_COUNT&value="+lengthOfClip.getText().toString());
 
+        finish();
+
 
     }
 
